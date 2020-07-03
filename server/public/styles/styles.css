@@ -1,0 +1,28 @@
+body{
+    background-image: url(francesco-ungaro-2SXFKSO5G8w-unsplash.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.list{
+    background: linear-gradient(rgb(127, 184, 218),rgb(144, 203, 211));
+    width: 275px;
+    margin: 20px;
+}
+
+.list ~ div:nth-child(even){
+    background:  linear-gradient(rgb(109, 189, 233),rgb(114, 167, 196));
+}
+
+.bubble{
+    font-size: 2.5rem;
+}
+
+ul{
+    list-style: none;
+}
+
+.strike-it{
+    text-decoration: line-through;
+}
+
