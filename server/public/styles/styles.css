@@ -10,9 +10,9 @@ body{
     margin: 20px;
 }
 
-.list ~ div:nth-child(even){
+/* .list:nth-of-type(even){
     background:  linear-gradient(rgb(109, 189, 233),rgb(114, 167, 196));
-}
+} */
 
 .bubble{
     font-size: 2.5rem;
