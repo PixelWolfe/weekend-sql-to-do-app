@@ -56,8 +56,6 @@ function addTask(){
 
     tableBody.append(tr);
 
-    
-
     //post to server
         //status not completed
         //task_description is inputValue
@@ -65,6 +63,15 @@ function addTask(){
             //$
         //server sends to database
             //
+}
 
-
+function updateToDoLists(){
+    $.ajax({
+        method: "GET",
+        url: "/updateTables"
+    }).then(function(response){
+    
+    }).catch(function(err){
+        
+    })
 }
