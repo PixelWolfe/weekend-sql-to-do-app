@@ -1,24 +1,13 @@
+// const getTablesRouter = require("../../routers/router.getTables");
 
 $(document).ready(onReady);
 
 function onReady(){
-    // $("input").focus(function(){
-    //     //I have the focus
-    //     $(this).css("background-color", "red");
-    // }); 
-    // $("input").blur(function(){
-    //     $(this).css("background-color", "white");
-    // })
     $('main').on('click', 'input[type=checkbox]', strikeSiblingLabel);
-    $( function() {
-        $( ".sortable" ).sortable();
-        $( ".sortable" ).disableSelection();
-      } );
-    $('main').on('click', '.add-task-button', addTask)
+    $('main').on('click', '.add-task-button', addTask);
+    $('.create-list-button').on('click', checkTableName);
+    getTables();
 }
-
-// if ($("input[type=checkbox]").prop( 
-//     ":checked"))
 
 function strikeSiblingLabel(){
     console.log('input clicked');
@@ -30,48 +19,142 @@ function addTask(){
     console.log('Add Task Clicked');
 
     let inputValue = $(this).siblings('.task-input').val();
-    console.log(inputValue);
-    
-    console.log('checking table');
     let table = $(this).parent().siblings();
-    console.log(table);
-    
     let tableBody = table.children();
-    console.log('tablebody: ', tableBody);
-    
     let tableBodyLength = tableBody.children().length;
-    console.log('table children: ', tableBodyLength);
+    let position = tableBodyLength + 1;
 
-    
-    
-    //append to table
-    let tr = `
-        <tr data-id="" data-position="${tableBodyLength + 1}">
-            <td>
-                <input type="checkbox" id="" name="" value="${inputValue}">
-                <label for="">${inputValue}</label>
-            </td>
-        </tr>
-    `;
-
-    tableBody.append(tr);
-
-    //post to server
-        //status not completed
-        //task_description is inputValue
-        //position is last index of table + !
-            //$
-        //server sends to database
-            //
+    $.ajax({
+        method: "POST",
+        url: '/addTask',
+        data: {table_name: tableBody[0].id, status: 'not completed', task_description: `${inputValue}`, position_number: position}
+    }).then(function(response){
+        updateTables(tableBody[0].id)
+    }).catch(function(err){
+        alert('Error from server adding task, ', err);
+    })
 }
 
-function updateToDoLists(){
+function updateTables(tableName){
+
+    $.ajax({
+        method: "POST",
+        url: "/updateTables",
+        data: {table_name: tableName}
+    }).then(function(response){
+        console.log('Back from server with: ', response);
+        $(`#${tableName}`).empty();
+        for(let i = 0; i < response.length; i++){
+            let inputAndLabel = `
+                <input type="checkbox" id="" name="" value="${response[i].task_description}"></input>
+                <label for="">${response[i].task_description}</label>
+            `
+            if(response[i].status === "completed"){
+                inputAndLabel = `
+                    <input checked type="checkbox" class="" id="" name="" value="${response[i].task_description}">
+                    <label class="strike-it" for="">${response[i].task_description}</label>
+                `
+            }
+
+            let tr = `
+                <tr data-id="${response[i].id}" data-position="${response[i].position_number}">
+                    <td>
+                        ${inputAndLabel}
+                    </td>
+                </tr>
+            `;
+            console.log('logging #tableName.append: ', `#${tableName}`);
+            
+            $(`#${tableName}`).append(tr);
+        }
+            
+    }).catch(function(err){
+        console.log('Error from server: ', err);
+    })
+}
+
+function getTables(){
     $.ajax({
         method: "GET",
-        url: "/updateTables"
+        url: "/getTables"
     }).then(function(response){
-    
+        console.log('Back from server with: ', response);
+        $('main').empty();
+        for(table of response){
+            let card = `
+                <div class="list card text-center">
+                    <h2 class="mb-0">${table.table_name}</h2>
+                    <div class="card-body my-0 pt-2 pl-0 text-left">
+                        <table class="table">
+                            <tbody class="sortable" id="${table.table_name}">
+                            </tbody>
+                        </table>
+                        <div class="text-center">
+                            <input type="text" class="task-input" placeholder="Enter task here...">
+                            <button class="btn-success add-task-button">Add Task</button>  
+                        </div>
+                    </div>
+                </div>`;
+            $('main').append(card);
+            updateTables(table.table_name);
+        }
     }).catch(function(err){
-        
+        console.log('Server Error: ', err);
     })
+}
+
+function checkTableName(){
+    console.log('create list button pressed');
+
+    let inputField = $('.create-list-input');
+    let tableName = inputField.val();
+
+    inputField.removeClass('red-border');
+    
+    if(tableName === ''){
+        inputField.addClass('red-border');
+        console.log('shake');
+        return;
+    }
+
+    //post tableName and check to see tables exist with the same name
+    //send back 
+    $.ajax({
+        method: "GET",
+        url: "/getTables"
+    }).then(function(response){
+        for(let name of response){
+            console.log('name vs tablename', name.table_name, tableName);
+            if(name.table_name === tableName){
+                inputField.addClass('red-border');
+                alert('List name already exists! Try another name!');
+                return;
+            }
+        }
+        createTable(tableName);
+        console.log('Input is Unique! 0 matches found!');
+    }).catch(function(err){
+        alert('Server Error checking existing table names: ', err);
+    })
+}
+
+function createTable(tableName){
+    //send ajax command to create table
+    //post with tableName
+    //in then create server side tables with getTables()
+
+    $.ajax({
+        method: "POST",
+        url: "/createTable",
+        data: {table_name: tableName}
+    }).then(function(response){
+        getTables();
+        console.log('dont forget to make me a meme.'); 
+    }).catch(function(err){
+        alert('Server Error creating table: ', err);
+    })
+}
+
+function checkBox(){
+    
 }

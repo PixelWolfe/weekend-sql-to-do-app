@@ -24,5 +24,9 @@ ul{
 
 .strike-it{
     text-decoration: line-through;
+    color: rgb(87, 122, 122);
 }
 
+.red-border{
+    border-color: red;
+}
