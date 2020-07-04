@@ -14,24 +14,24 @@ You are going to create a 'TO DO' application. This type of application is very 
 **Here are the specific components for the challenge:**
 
 * Create a front end experience that allows a user to create a Task.
-[] create a list button
-    [] checks for an already existing table of that name
-      [] makes a new table in database
-      [] appends card on the dom with table
-  [] create a task button
+[x] create a list button
+    [x] checks for an already existing table of that name
+      [x] makes a new table in database
+      [x] appends card on the dom with table
+  [x] create a task button
 * When the Task is created, it should be stored inside of a database (SQL)
-  [] post
+  [x] post
 * Whenever a Task is created the front end should refresh to show all tasks that need to be completed.
-  [] get
+  [x] get
 * Each Task should have an option to 'Complete' or 'Delete'.
   [] complete checkbox is a put
-    [] change text to have strike-through
-    [] have checkbox be checked
+    [x] change text to have strike-through
+    [x] have checkbox be checked
   [] delete is a delete
 * When a Task is complete, its visual representation should change on the front end. For example, the background of the task container could change from gray to green. The complete option should be  'checked off'. Each of these are accomplished in CSS, but will need to hook into logic to know whether or not the task is complete.
   [] 
 * Whether or not a Task is complete should also be stored in the database.
-[] [id, status, task_description]
+[x] [id, status, task_description]
 * Deleting a Task should remove it both from the front end as well as the Database.
 [] delete to database
   [] then get from database
@@ -74,8 +74,8 @@ For each of your strech goals, you will be practicing git branching. Please refe
 
 - `feature-styling-bootstrap` 
 
-    - [ ]  Add Bootstrap to the front end and style it up!
-      -  Buttons -- make the creation buttons and completion buttons green and the delete red.
+    - [x]  Add Bootstrap to the front end and style it up!
+      - [x] Buttons -- make the creation buttons and completion buttons green and the delete red.
       -  Inputs -- make your text inputs styled in the bootstrap way
       -  Responsive -- make your app responsive to different screen sizes -- check out the [Layout](https://getbootstrap.com/docs/4.1/layout/overview/) section
 
@@ -91,3 +91,39 @@ For each of your strech goals, you will be practicing git branching. Please refe
 - `feature-time-completed` 
 
     - [ ]  Add the ability to record when a task was completed. Show the completed date on the frontend in a pretty format.
+
+
+### tasks and bugs to squash
+
+-rethink how a table is named on DB
+and how its stored with list??
+
+-add a list description
+  -make sure create table input can be used when making a table
+    -figure out what can and cannot be used in making a table name
+-when checking an item run a PUT to update its status on the list its located on
+-update position when moving the order of list items
+
+-when all items of a list are checked off have a prompt asking the user if they want to pop their bubble list
+  -add sound to popping of bubblelist
+  -bubblessss!!!!
+    -cool water sounds
+
+-squash bootstrap flex bugs so tops of the lists stay at the top of the screen
+  -Stretch! Figure out have to have the lists scroll horizontally and show a scrollbar
+
+-have bubbles get created when user hits create button, satisfying waterdrop sound
+
+-improve gradient
+
+-auto-pop feature icon
+  -delete feature? - pop equivalent
+
+-archive popped bubbles under the nav bar brand, when link is clicked empty main and getArchivedBubbles.
+
+-update create placeholder to create bubble list
+
+-delete list items
+-edit list items
+
+
