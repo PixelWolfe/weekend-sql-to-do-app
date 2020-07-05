@@ -30,3 +30,16 @@ ul{
 .red-border{
     border-color: red;
 }
+
+td{
+    padding: 0rem;
+    padding-left: .75rem;
+}
+
+.row-delete{
+    visibility: hidden;
+}
+
+.table-hover tbody tr:hover td button{  
+    visibility: visible; 
+}  

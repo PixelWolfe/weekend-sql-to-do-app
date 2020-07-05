@@ -24,4 +24,17 @@ router.put('/:id', (req,res)=>{
         })
 })
 
+router.delete('/:id', (req,res)=>{
+    
+    let queryString = `DELETE FROM "${req.body.table_name}" WHERE id='${req.params.id}';`;
+    pool.query(queryString)
+        .then(response=>{
+            res.sendStatus(200);
+        })
+        .catch(err=>{
+            res.sendStatus(500);
+        })
+})
+
+
 module.exports = router;

@@ -6,7 +6,12 @@ function onReady(){
     $('main').on('click', 'input[type=checkbox]', strikeSiblingLabel);
     $('main').on('click', '.add-task-button', addTask);
     $('.create-list-button').on('click', checkTableName);
+    $('main').on('click', '.row-delete', deleteRow)
     getTables();
+}
+
+function deleteTable(){
+
 }
 
 function strikeSiblingLabel(){
@@ -70,22 +75,34 @@ function updateTables(tableName){
         for(let i = 0; i < response.length; i++){
             let inputAndLabel = `
                 <input type="checkbox" data-table="${tableName}" data-id="${response[i].id}" name="" value="${response[i].task_description}"></input>
-                <label for="">${response[i].task_description}</label>
+                <label class="m-0" for="">${response[i].task_description}</label>
             `
             if(response[i].status === "completed"){
                 inputAndLabel = `
-                    <input checked type="checkbox" data-table="${tableName}" class="" data-id="${response[i].id}" name="" value="${response[i].task_description}">
-                    <label class="strike-it" for="">${response[i].task_description}</label>
+                    <input checked type="checkbox" data-table="${tableName}"
+                     class="" data-id="${response[i].id}" name="" value="${response[i].task_description}">
+                    <label class="strike-it m-0" for="">${response[i].task_description}</label>
                 `
             }
 
+            let deleteTd = `
+                <td>
+                    <button class="btn-danger row-delete" data-id="${response[i].id}" data-table="${tableName}">Delete</button>
+                </td>
+            `;
+
+            console.log(deleteTd);
+            
             let tr = `
                 <tr data-position="${response[i].position_number}">
-                    <td>
+                    <td class="pl-3">
                         ${inputAndLabel}
                     </td>
+                    ${deleteTd}
                 </tr>
             `;
+            console.log('tr', tr);
+            
             console.log('logging #tableName.append: ', `#${tableName}`);
             
             $(`#${tableName}`).append(tr);
@@ -107,18 +124,23 @@ function getTables(){
             let card = `
                 <div class="list card text-center">
                     <h2 class="mb-0">${table.table_name}</h2>
-                    <div class="card-body my-0 pt-2 pl-0 text-left">
-                        <table class="table">
-                            <tbody class="sortable" id="${table.table_name}">
-                            </tbody>
-                        </table>
-                        <div class="text-center">
-                            <input type="text" class="task-input" placeholder="Enter task here...">
-                            <button class="btn-success add-task-button">Add Task</button>  
+                    
+                    <div class="card-body my-0 pl-0 pt-2 pr-0 pb-2 text-left">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <tbody class="sortable" id="${table.table_name}">
+                                </tbody>
+                            </table>
+                            <div class="text-center">
+                                <input type="text" class="task-input" placeholder="Enter task here...">
+                                <button class="btn-success add-task-button">Add Task</button>  
+                            </div>
                         </div>
                     </div>
                 </div>`;
             $('main').append(card);
+            $( ".sortable" ).sortable();
+            $( ".sortable" ).disableSelection();
             updateTables(table.table_name);
         }
     }).catch(function(err){
@@ -178,3 +200,17 @@ function createTable(tableName){
     })
 }
 
+function deleteRow(){
+    let deleteId = $(this).data('id');
+    let tableName = $(this).data('table');
+
+    $.ajax({
+        method: "DELETE",
+        url: "/status/" + deleteId,
+        data: {table_name: tableName}
+    }).then(function (response){
+        updateTables(tableName);
+    }).catch(function(err){
+        alert('Error deleting list row!', err)
+    })
+}
