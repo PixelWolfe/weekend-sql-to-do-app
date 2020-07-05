@@ -24,17 +24,17 @@ You are going to create a 'TO DO' application. This type of application is very 
 * Whenever a Task is created the front end should refresh to show all tasks that need to be completed.
   [x] get
 * Each Task should have an option to 'Complete' or 'Delete'.
-  [] complete checkbox is a put
+  [x] complete checkbox is a put
     [x] change text to have strike-through
     [x] have checkbox be checked
-  [] delete is a delete
+  [x] delete is a delete
 * When a Task is complete, its visual representation should change on the front end. For example, the background of the task container could change from gray to green. The complete option should be  'checked off'. Each of these are accomplished in CSS, but will need to hook into logic to know whether or not the task is complete.
-  [] 
+  [x] 
 * Whether or not a Task is complete should also be stored in the database.
 [x] [id, status, task_description]
 * Deleting a Task should remove it both from the front end as well as the Database.
-[] delete to database
-  [] then get from database
+[x] delete to database
+  [x] then get from database
 
 
 
@@ -123,7 +123,7 @@ and how its stored with list??
 
 -update create placeholder to create bubble list
 
--delete list items
+√ delete list items
 -edit list items
 
 

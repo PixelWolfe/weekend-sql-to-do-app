@@ -59,7 +59,8 @@ function strikeSiblingLabel(){
 function addTask(){
     console.log('Add Task Clicked');
 
-    let inputValue = $(this).siblings('.task-input').val();
+    let input = $(this).siblings('.task-input');
+    let inputValue = input.val();
     let table = $(this).parent().siblings();
     let tableBody = table.children();
     let tableBodyLength = tableBody.children().length;
@@ -70,7 +71,8 @@ function addTask(){
         url: '/addTask',
         data: {table_name: tableBody[0].id, status: 'not completed', task_description: `${inputValue}`, position_number: position}
     }).then(function(response){
-        updateTables(tableBody[0].id)
+        updateTables(tableBody[0].id);
+        input.val('')
     }).catch(function(err){
         alert('Error from server adding task, ', err);
     })
@@ -213,7 +215,7 @@ function createTable(tableName){
         data: {table_name: tableName}
     }).then(function(response){
         getTables();
-        console.log('dont forget to make me a meme.'); 
+        $('.create-list-input').val('');
     }).catch(function(err){
         alert('Server Error creating table: ', err);
     })
