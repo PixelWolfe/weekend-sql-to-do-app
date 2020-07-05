@@ -5,14 +5,14 @@ body{
 }
 
 .list{
-    background: linear-gradient(rgb(127, 184, 218),rgb(144, 203, 211));
+    background: linear-gradient(rgb(127, 184, 218),rgb(167, 242, 252));
     width: 275px;
     margin: 20px;
 }
 
-/* .list:nth-of-type(even){
-    background:  linear-gradient(rgb(109, 189, 233),rgb(114, 167, 196));
-} */
+.list:nth-of-type(even){
+    background:  linear-gradient(rgb(102, 160, 190),rgb(174, 227, 255));
+}
 
 .bubble{
     font-size: 2.5rem;

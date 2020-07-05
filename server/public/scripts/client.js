@@ -11,8 +11,31 @@ function onReady(){
 
 function strikeSiblingLabel(){
     console.log('input clicked');
-    
     $(this).siblings('label').toggleClass('strike-it');
+    
+    let editId = $(this).data('id');
+    let status = null;
+    let tableName = $(this).data('table');
+
+    if ($(this).prop('checked') === true){
+        status = "completed";
+    }
+    else{
+        status = "not completed"
+    }
+    
+    $.ajax({
+        method: "PUT",
+        url: "/status/" + editId,
+        data: {status: status, table_name: tableName}
+    })
+    .then(function(response){
+        console.log('Status updated on database!: ', response);
+        updateTables(tableName);
+    })
+    .catch(function(err){
+        console.log('Server Error: ', err);
+    })
 }
 
 function addTask(){
@@ -46,18 +69,18 @@ function updateTables(tableName){
         $(`#${tableName}`).empty();
         for(let i = 0; i < response.length; i++){
             let inputAndLabel = `
-                <input type="checkbox" id="" name="" value="${response[i].task_description}"></input>
+                <input type="checkbox" data-table="${tableName}" data-id="${response[i].id}" name="" value="${response[i].task_description}"></input>
                 <label for="">${response[i].task_description}</label>
             `
             if(response[i].status === "completed"){
                 inputAndLabel = `
-                    <input checked type="checkbox" class="" id="" name="" value="${response[i].task_description}">
+                    <input checked type="checkbox" data-table="${tableName}" class="" data-id="${response[i].id}" name="" value="${response[i].task_description}">
                     <label class="strike-it" for="">${response[i].task_description}</label>
                 `
             }
 
             let tr = `
-                <tr data-id="${response[i].id}" data-position="${response[i].position_number}">
+                <tr data-position="${response[i].position_number}">
                     <td>
                         ${inputAndLabel}
                     </td>
@@ -155,6 +178,3 @@ function createTable(tableName){
     })
 }
 
-function checkBox(){
-    
-}
