@@ -1,26 +1,25 @@
-CREATE TABLE tablename (
+CREATE TABLE water (
 	"id" serial PRIMARY KEY,
 	"status" varchar(20) NOT NULL,
 	"task_description" varchar(100) NOT NULL,
 	"position_number" varchar(3) NOT NULL
 );
 
-INSERT INTO "tablename" ("status", "task_description", "position_number") VALUES ( $1, $2, $3 );
+INSERT INTO "water" ("status", "task_description", "position_number")
+VALUES ('completed', 'save $650 for gear', '1'),
+		('not completed', 'get scuba certified', '2'),
+		('not completed', 'learn to speak with fishes and such', '3'),
+		('completed', 'befriend a lion turtle', '4'),
+		('not completed', 'master waterbending', '5');
 
-INSERT INTO "list2" ("status", "task_description", "position_number")
-VALUES ( 'completed', 'wash the dirty laundry', '1');
+CREATE TABLE fire (
+	"id" serial PRIMARY KEY,
+	"status" varchar(20) NOT NULL,
+	"task_description" varchar(100) NOT NULL,
+	"position_number" varchar(3) NOT NULL
+);
 
-SELECT table_name
-FROM information_schema.tables
-WHERE table_schema = 'public'
-ORDER BY table_name; 
+INSERT INTO "fire" ("status", "task_description", "position_number")
+VALUES ('completed', 'play with it', '1');
 
-SELECT * FROM "list1" ORDER BY position_number ASC;
 
-SELECT * FROM list1;
-SELECT * FROM list3;
-
-SELECT table_name
-        FROM information_schema.tables
-        WHERE table_schema = 'public'
-        ORDER BY table_name; 
