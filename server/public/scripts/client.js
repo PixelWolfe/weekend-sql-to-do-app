@@ -7,11 +7,24 @@ function onReady(){
     $('main').on('click', '.add-task-button', addTask);
     $('.create-list-button').on('click', checkTableName);
     $('main').on('click', '.row-delete', deleteRow)
+    $('main').on('click', '.delete-table', deleteTable);
     getTables();
 }
 
 function deleteTable(){
 
+    let tableName = $(this).data('table');
+    console.log('Delete Table Pressed!:', tableName);
+
+    $.ajax({
+        method: "DELETE",
+        url: "/deleteTable",
+        data: {table_name: tableName}
+    }).then(function (response){
+       getTables();
+    }).catch(function(err){
+        alert('Error deleting table: ', err)
+    })
 }
 
 function strikeSiblingLabel(){
@@ -123,8 +136,14 @@ function getTables(){
         for(table of response){
             let card = `
                 <div class="list card text-center">
-                    <h2 class="mb-0">${table.table_name}</h2>
-                    
+                    <h2 class="mb-0">
+                        ${table.table_name}
+                        <button class="delete-table btn-sm btn-danger p-0" data-table="${table.table_name}">
+                            <i class="material-icons">delete_forever</i>
+                        </button>
+                        
+                    </h2>
+
                     <div class="card-body my-0 pl-0 pt-2 pr-0 pb-2 text-left">
                         <div class="table-responsive">
                             <table class="table table-hover">
